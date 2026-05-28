@@ -21,25 +21,26 @@ const CloudSync = {
   async connect() {
     App.toast("☁️ 正在连接云存储...", "info");
     try {
+      // 步骤1: 先测试网络连通性
+      console.log("云同步: 开始测试连接...");
+      const testRes = await fetch("https://api.jsonbin.io/v3/b", { method: "GET", headers: { "X-Master-Key": this.API_KEY } });
+      console.log("云同步: API 连通性 OK, 状态", testRes.status);
+      
+      // 步骤2: 创建新存储
       const res = await fetch(this.BASE_URL + "/b", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Master-Key": this.API_KEY,
-          "X-Bin-Name": "FridgeApp Data"
-        },
-        body: JSON.stringify({
-          inventory: Storage.getInventory(),
-          updatedAt: new Date().toISOString()
-        })
+        headers: { "Content-Type": "application/json", "X-Master-Key": this.API_KEY, "X-Bin-Name": "FridgeApp" },
+        body: JSON.stringify({ inventory: Storage.getInventory(), updatedAt: new Date().toISOString() })
       });
-
+      console.log("云同步: POST 响应状态", res.status);
+      
       if (!res.ok) {
-        const errText = await res.text().catch(() => "未知错误");
+        const errText = await res.text().catch(() => "无响应体");
         throw new Error("HTTP " + res.status + ": " + errText.slice(0, 100));
       }
-
       const result = await res.json();
+      console.log("云同步: 创建成功, binId=", result.metadata.id);
+      
       this.binId = result.metadata.id;
       localStorage.setItem("fridge_bin_id", this.binId);
       this.lastSync = new Date().toISOString();
@@ -49,8 +50,8 @@ const CloudSync = {
       this.renderSettings();
       return true;
     } catch (err) {
-      console.error("云同步连接失败:", err);
-      App.toast("❌ 连接失败: " + err.message, "error", 8000); console.error("云同步详细错误:", err);
+      console.error("云同步失败详情:", err);
+      App.toast("❌ 连接失败: " + (err.message || "未知错误，请打开浏览器控制台查看详情"), "error", 8000);
       return false;
     }
   },
