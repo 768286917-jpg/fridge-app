@@ -28,22 +28,6 @@ const ExcelManager = {
       <div id="cloud-settings"></div>
 
       <div class="settings-group">
-        <div class="settings-group-title">🎨 主题设置</div>
-        <div class="settings-item">
-          <div>
-            <div class="settings-item-label">深色模式</div>
-            <div class="settings-item-desc">切换明暗主题</div>
-          </div>
-          <label class="toggle-switch">
-            <input type="checkbox" id="theme-toggle-setting" ${Storage.getSettings().theme === 'dark' ? 'checked' : ''} onchange="App.toggleTheme()">
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-      </div>
-
-      <div id="cloud-settings"></div>
-
-      <div class="settings-group">
         <div class="settings-group-title">📂 数据导入导出</div>
         <div class="settings-item" style="flex-direction:column;align-items:stretch;gap:12px">
           <div>
@@ -70,28 +54,6 @@ const ExcelManager = {
         </div>
       </div>
 
-      <div id="cloud-settings"></div>
-
-      <div class="settings-group">
-        <div class="settings-group-title">📖 菜谱管理</div>
-        <div class="settings-item">
-          <div>
-            <div class="settings-item-label">恢复默认菜谱</div>
-            <div class="settings-item-desc">重置为内置的 130+ 道菜谱数据</div>
-          </div>
-          <button class="btn btn-ghost" onclick="ExcelManager.resetRecipes()">🔄 恢复</button>
-        </div>
-        <div class="settings-item">
-          <div>
-            <div class="settings-item-label">清除所有数据</div>
-            <div class="settings-item-desc">删除所有库存和菜谱数据</div>
-          </div>
-          <button class="btn btn-danger" onclick="ExcelManager.clearAllData()">🗑️ 清除</button>
-        </div>
-      </div>
-
-      <div id="cloud-settings"></div>
-
       <div class="settings-group">
         <div class="settings-group-title">📱 关于</div>
         <div class="glass-card" style="text-align:center;padding:24px">
@@ -105,6 +67,8 @@ const ExcelManager = {
     // 恢复主题状态
     const cb = document.getElementById('theme-toggle-setting');
     if (cb) cb.checked = Storage.getSettings().theme === 'dark';
+    // 渲染云同步设置
+    CloudSync.renderSettings();
   },
 
   // 导出 Excel
