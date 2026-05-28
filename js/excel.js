@@ -25,6 +25,8 @@ const ExcelManager = {
         <p class="page-subtitle">管理应用配置与数据</p>
       </div>
 
+      <div id="cloud-settings"></div>
+
       <div class="settings-group">
         <div class="settings-group-title">🎨 主题设置</div>
         <div class="settings-item">
@@ -38,6 +40,8 @@ const ExcelManager = {
           </label>
         </div>
       </div>
+
+      <div id="cloud-settings"></div>
 
       <div class="settings-group">
         <div class="settings-group-title">📂 数据导入导出</div>
@@ -66,6 +70,8 @@ const ExcelManager = {
         </div>
       </div>
 
+      <div id="cloud-settings"></div>
+
       <div class="settings-group">
         <div class="settings-group-title">📖 菜谱管理</div>
         <div class="settings-item">
@@ -83,6 +89,8 @@ const ExcelManager = {
           <button class="btn btn-danger" onclick="ExcelManager.clearAllData()">🗑️ 清除</button>
         </div>
       </div>
+
+      <div id="cloud-settings"></div>
 
       <div class="settings-group">
         <div class="settings-group-title">📱 关于</div>
